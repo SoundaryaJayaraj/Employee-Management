@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.SpringBootDemoTask.dto.EmployeerequestDto;
 import com.example.SpringBootDemoTask.dto.ResponseDto;
 import com.example.SpringBootDemoTask.exception.ResourceNotFoundException;
+import com.example.SpringBootDemoTask.model.AuthRequest;
 import com.example.SpringBootDemoTask.model.Employee;
+import com.example.SpringBootDemoTask.model.JwtUtil;
+import com.example.SpringBootDemoTask.repository.UserRepository;
 import com.example.SpringBootDemoTask.repository.EmployeeRepository;
 import com.example.SpringBootDemoTask.service.EmployeeService;
+import com.example.SpringBootDemoTask.service.CustomUserDetailsService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,6 +37,18 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeRepository employeerepository;
+
+	@Autowired
+	AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	CustomUserDetailsService userDetailsService;
+
+	@Autowired
+	UserRepository authrepository;
 
 	@Autowired
 	EmployeeService employeeService;
@@ -87,10 +105,8 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/page/{pageNo}")
-	public ResponseDto findPaginated(@PathVariable(value = "pageNo") int pageNo,
-			@RequestParam("pageSize") int pageSize,
-			@RequestParam("sortField") String sortField, 
-			@RequestParam("sortDir") String sortDir) {
+	public ResponseDto findPaginated(@PathVariable(value = "pageNo") int pageNo, @RequestParam("pageSize") int pageSize,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
 		ResponseDto responsedto = new ResponseDto();
 
 		Page<Employee> page = employeeService.findPaginated(pageNo, pageSize, sortField, sortDir);
@@ -103,6 +119,16 @@ public class EmployeeController {
 		responsedto.setSortField(sortField);
 		responsedto.setSortDir(sortDir);
 		return responsedto;
+	}
 
+	@PostMapping("/authenticate")
+	public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+		try {
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+		} catch (Exception ex) {
+			throw new Exception("inavalid username/password");
+		}
+		return jwtUtil.generateToken(authRequest.getUserName());
 	}
 }
