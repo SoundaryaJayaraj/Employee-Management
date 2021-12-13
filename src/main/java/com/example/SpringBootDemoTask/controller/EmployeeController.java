@@ -57,7 +57,6 @@ public class EmployeeController {
 	public Employee createEmployee(@RequestBody EmployeerequestDto dto) {
 
 		Employee employee = new Employee();
-
 		employee.setName(dto.getName());
 		employee.setDepartment(dto.getDepartment());
 		employee.setSalary(dto.getSalary());

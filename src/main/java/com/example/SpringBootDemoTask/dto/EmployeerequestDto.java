@@ -11,13 +11,7 @@ public class EmployeerequestDto {
 	private LocalDate checkin;
 	private boolean status;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 
 	public String getName() {
 		return name;
@@ -57,6 +51,22 @@ public class EmployeerequestDto {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+//	public Integer getEmpid() {
+//		return empid;
+//	}
+//
+//	public void setEmpid(Integer empid) {
+//		this.empid = empid;
+//	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }
