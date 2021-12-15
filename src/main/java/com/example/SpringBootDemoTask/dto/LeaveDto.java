@@ -3,12 +3,12 @@ package com.example.SpringBootDemoTask.dto;
 import java.util.Date;
 
 import com.example.SpringBootDemoTask.model.Employee;
+import com.example.SpringBootDemoTask.model.LeaveType;
 
 public class LeaveDto {
 
 	private Integer lid;
-	private String leaveType;
-	private int duration;
+	private float duration;
 	private Date fromDate;
 	private Date toDate;
 	private boolean halfday;
@@ -16,19 +16,14 @@ public class LeaveDto {
 
 	private Employee empid;
 
-	public String getLeaveType() {
-		return leaveType;
-	}
-
-	public void setLeaveType(String leaveType) {
-		this.leaveType = leaveType;
-	}
-
-	public int getDuration() {
+	private Integer ltId;
+	
+	
+	public float getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 
@@ -79,5 +74,15 @@ public class LeaveDto {
 	public void setLid(Integer lid) {
 		this.lid = lid;
 	}
+
+	public Integer getLtId() {
+		return ltId;
+	}
+
+	public void setLtId(Integer ltId) {
+		this.ltId = ltId;
+	}
+
+	
 
 }

@@ -17,25 +17,34 @@ import com.example.SpringBootDemoTask.dto.LeaveDto;
 import com.example.SpringBootDemoTask.exception.ResourceNotFoundException;
 import com.example.SpringBootDemoTask.model.Employee;
 import com.example.SpringBootDemoTask.model.LeaveDetails;
+import com.example.SpringBootDemoTask.model.LeaveType;
 import com.example.SpringBootDemoTask.repository.EmployeeRepository;
 import com.example.SpringBootDemoTask.repository.LeaveDetailsRepository;
+import com.example.SpringBootDemoTask.repository.LeaveTypeRepository;
 
 @RestController
 @RequestMapping("/api/v1")
 public class LeaveDetailsController {
 
 	@Autowired
-	LeaveDetailsRepository leaverepo;
+	private LeaveDetailsRepository leaverepo;
 
 	@Autowired
-	EmployeeRepository employeerepository;
+	private EmployeeRepository employeerepository;
+
+	@Autowired
+	private LeaveTypeRepository levtyprepo;
 
 	@PostMapping("/applyForLeave/{empId}")
 	public String applyForLeave(@PathVariable(value = "empId") Integer empId, @RequestBody LeaveDto leavedto) {
+
 		try {
+			// finding the leave type
+			LeaveType levtype = levtyprepo.findByLtId(leavedto.getLtId()).get();
+
 			LeaveDetails leave = new LeaveDetails();
-			leave.setLeaveType(leavedto.getLeaveType());
-			leave.setDuration(leavedto.getDuration());
+			leave.setLtId(levtype);
+			leave.setDuration(duration(leavedto));
 			leave.setFromDate(leavedto.getFromDate());
 			leave.setToDate(leavedto.getToDate());
 			leave.setHalfday(leavedto.getHalfday());
@@ -60,12 +69,22 @@ public class LeaveDetailsController {
 			@RequestBody LeaveDto leavedto) {
 		LeaveDetails leave = leaverepo.findById(leaveLid)
 				.orElseThrow(() -> new ResourceNotFoundException("No records to update"));
-		leave.setLeaveType(leavedto.getLeaveType());
-		leave.setDuration(leavedto.getDuration());
-		leave.setFromDate(leavedto.getFromDate());
-		leave.setToDate(leavedto.getToDate());
-		leave.setHalfday(leavedto.getHalfday());
-		leave.setReason(leavedto.getReason());
+
+		if (leavedto.getLtId() != null) {
+			LeaveType levtype = levtyprepo.findByLtId(leavedto.getLtId()).get();
+			leave.setLtId(levtype);
+		}
+		if (leavedto.getFromDate() != null && leavedto.getToDate() != null) {
+			leave.setFromDate(leavedto.getFromDate());
+			leave.setToDate(leavedto.getToDate());
+			leave.setDuration(duration(leavedto));
+		}
+		if (leavedto.getHalfday()) {
+			leave.setHalfday(leavedto.getHalfday());
+		}
+		if (leavedto.getReason() != null) {
+			leave.setReason(leavedto.getReason());
+		}
 		final LeaveDetails updatedrecords = leaverepo.save(leave);
 		return ResponseEntity.ok(updatedrecords);
 	}
@@ -80,5 +99,11 @@ public class LeaveDetailsController {
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
+	}
+
+	private float duration(LeaveDto leavedto) {
+		long difference = leavedto.getToDate().getTime() - leavedto.getFromDate().getTime();
+		float daysBetween = (difference / (1000 * 60 * 60 * 24));
+		return daysBetween;
 	}
 }
