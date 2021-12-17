@@ -1,7 +1,6 @@
 package com.example.SpringBootDemoTask.controller;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,8 @@ import com.example.SpringBootDemoTask.model.JwtUtil;
 import com.example.SpringBootDemoTask.repository.UserRepository;
 import com.example.SpringBootDemoTask.repository.EmployeeRepository;
 import com.example.SpringBootDemoTask.service.EmployeeService;
-import com.example.SpringBootDemoTask.service.CustomUserDetailsService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -54,6 +54,7 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@PostMapping("/employee")
+	@ApiOperation( value = "Fill necessary details to create an employee")
 	public Employee createEmployee(@RequestBody EmployeerequestDto dto) {
 
 		Employee employee = new Employee();
@@ -66,11 +67,13 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/employees")
+	@ApiOperation( value = "Get all Employee details")
 	public List<Employee> getAllEmployee() {
 		return employeerepository.findAll();
 	}
 
 	@GetMapping("/employee/{id}")
+	@ApiOperation( value = "Enter Employee Id to view details of Employee")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable(name = "id") Integer employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeerepository.findById(employeeId)
@@ -79,6 +82,7 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/employee/{id}")
+	@ApiOperation( value = "Enter Employee Id to make changes for corresponding employee")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Integer employeeId,
 			@RequestBody EmployeerequestDto dto) throws ResourceNotFoundException {
 		Employee employee = employeerepository.findById(employeeId)
@@ -93,6 +97,7 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping("/employee/{id}")
+	@ApiOperation( value = "Enter Employee Id to delete the Employee")
 	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Integer employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeerepository.findById(employeeId)
@@ -121,6 +126,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/authenticate")
+	@ApiOperation( value = "Login by username and password")
 	public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 		try {
 			authenticationManager.authenticate(

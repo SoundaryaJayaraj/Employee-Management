@@ -22,6 +22,8 @@ import com.example.SpringBootDemoTask.repository.EmployeeRepository;
 import com.example.SpringBootDemoTask.repository.LeaveDetailsRepository;
 import com.example.SpringBootDemoTask.repository.LeaveTypeRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/v1")
 public class LeaveDetailsController {
@@ -36,6 +38,7 @@ public class LeaveDetailsController {
 	private LeaveTypeRepository levtyprepo;
 
 	@PostMapping("/applyForLeave/{empId}")
+	@ApiOperation( value = "Apply for Leave by giving all details")
 	public String applyForLeave(@PathVariable(value = "empId") Integer empId, @RequestBody LeaveDto leavedto) {
 
 		try {
@@ -65,6 +68,7 @@ public class LeaveDetailsController {
 	}
 
 	@PutMapping("/updateLeave/{lid}")
+	@ApiOperation( value = "Update Leave records")
 	public ResponseEntity<LeaveDetails> updateLeaveRecord(@PathVariable(value = "lid") Integer leaveLid,
 			@RequestBody LeaveDto leavedto) {
 		LeaveDetails leave = leaverepo.findById(leaveLid)
@@ -90,6 +94,7 @@ public class LeaveDetailsController {
 	}
 
 	@GetMapping("/leaveRecords/{empId}")
+	@ApiOperation( value = "Enter Employee Id to view all leave records corresponding to the employee")
 	public List<LeaveDetails> getLeaveRecords(@PathVariable(value = "empId") Integer empId) {
 		try {
 			// finding the employee
