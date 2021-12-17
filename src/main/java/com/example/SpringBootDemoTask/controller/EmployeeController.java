@@ -27,6 +27,7 @@ import com.example.SpringBootDemoTask.model.Employee;
 import com.example.SpringBootDemoTask.model.JwtUtil;
 import com.example.SpringBootDemoTask.repository.UserRepository;
 import com.example.SpringBootDemoTask.repository.EmployeeRepository;
+import com.example.SpringBootDemoTask.service.CustomUserDetailsService;
 import com.example.SpringBootDemoTask.service.EmployeeService;
 
 import io.swagger.annotations.ApiOperation;
