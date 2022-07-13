@@ -2,9 +2,6 @@ package com.example.SpringBootDemoTask.dto;
 
 import java.util.Date;
 
-import com.example.SpringBootDemoTask.model.Employee;
-import com.example.SpringBootDemoTask.model.LeaveType;
-
 public class LeaveDto {
 
 	private Integer lid;
@@ -14,7 +11,7 @@ public class LeaveDto {
 	private boolean halfday;
 	private String reason;
 
-	private Employee empid;
+	private Integer empid;
 
 	private Integer ltId;
 	
@@ -59,13 +56,13 @@ public class LeaveDto {
 		this.reason = reason;
 	}
 
-	public Employee getEmpid() {
-		return empid;
-	}
-
-	public void setEmpid(Employee empid) {
-		this.empid = empid;
-	}
+//	public Employee getEmpid() {
+//		return empid;
+//	}
+//
+//	public void setEmpid(Employee empid) {
+//		this.empid = empid;
+//	}
 
 	public Integer getLid() {
 		return lid;
@@ -81,6 +78,14 @@ public class LeaveDto {
 
 	public void setLtId(Integer ltId) {
 		this.ltId = ltId;
+	}
+
+	public Integer getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(Integer empid) {
+		this.empid = empid;
 	}
 
 	

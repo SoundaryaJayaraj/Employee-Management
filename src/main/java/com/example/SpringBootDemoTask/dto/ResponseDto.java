@@ -3,6 +3,7 @@ package com.example.SpringBootDemoTask.dto;
 import java.util.List;
 
 import com.example.SpringBootDemoTask.model.Employee;
+import com.example.SpringBootDemoTask.model.TimeSheet;
 
 
 public class ResponseDto {
@@ -12,7 +13,14 @@ public class ResponseDto {
 	private List<Employee> employee;
 	private String sortField; 
 	private  String sortDir;
+	private List<TimeSheet> tymsheet;
 	
+	public List<TimeSheet> getTymsheet() {
+		return tymsheet;
+	}
+	public void setTymsheet(List<TimeSheet> tymsheet) {
+		this.tymsheet = tymsheet;
+	}
 	public int getCurrentPage() {
 		return currentPage;
 	}
@@ -49,5 +57,4 @@ public class ResponseDto {
 	public void setSortDir(String sortDir) {
 		this.sortDir = sortDir;
 	}
-	
 }

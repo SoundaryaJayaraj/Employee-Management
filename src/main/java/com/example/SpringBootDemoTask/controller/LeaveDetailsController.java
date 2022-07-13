@@ -44,7 +44,6 @@ public class LeaveDetailsController {
 		try {
 			// finding the leave type
 			LeaveType levtype = levtyprepo.findByLtId(leavedto.getLtId()).get();
-
 			LeaveDetails leave = new LeaveDetails();
 			leave.setLtId(levtype);
 			leave.setDuration(duration(leavedto));

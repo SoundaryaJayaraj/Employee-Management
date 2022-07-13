@@ -17,14 +17,6 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	private String department;
 	private double salary;
 	private LocalDate checkin;
@@ -38,6 +30,13 @@ public class Employee {
 //	public void setEmpid(Integer empid) {
 //		this.empid = empid;
 //	}
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
